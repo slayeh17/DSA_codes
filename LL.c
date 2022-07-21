@@ -140,29 +140,33 @@ void split_even_odd(node **head,node *heade,node *heado)//12
     printf("\n");
     display(heado);
 }
-// void merge_sorted(node **head1,node **head2,node *headnew)//13
-// {
-//     node *cur1,*cur2;
-//     for(cur1=*head1,cur2=*head2;;)
-//     {
-//         if(cur1->data>cur2->data)
-//         {
-//             sequential_insertion(&headnew,cur2->data);
-//             cur2=cur2->next;
-//         }
-//         else
-//         {
-//             sequential_insertion(&headnew,cur1->data);
-//             cur1=cur1->next;
-//         }
-//     }
-//     display(headnew);
-// }
+void merge_sorted(node *head1,node *head2,node *headnew)//13
+{
+    node *cur1,*cur2,*curnew;
+    for(cur1=head1,cur2=head2;cur1!=NULL&&cur2!=NULL;)
+    {
+        if(cur1->data<cur2->data)
+        {
+            sequential_insertion(&headnew,cur1->data);
+            cur1=cur1->next;
+        }
+        else
+        {
+            sequential_insertion(&headnew,cur2->data);
+            cur2=cur2->next;
+        }
+    }
+    for(;cur1!=NULL;cur1=cur1->next)
+    sequential_insertion(&headnew,cur1->data);
+    for(;cur2!=NULL;cur2=cur2->next)
+    sequential_insertion(&headnew,cur2->data);
+    display(headnew);
+}
 void search(node *head,int n)//14
 {
     while(head!=NULL)
     {
-        if(n==head->data)
+        if(n==(head->data))
         {
             printf("\nElement Found");
             return;
@@ -184,15 +188,26 @@ int main()
         scanf("%d",&d);
         recursive_sequential_insertion(&head,d);
     }
+    // while(n--)
+    // {
+    //     scanf("%d",&d);
+    //     recursive_sorted_insertion(&head1,d);
+    // }
+    // scanf("%d",&n);
+    // while(n--)
+    // {
+    //     scanf("%d",&d);
+    //     recursive_sorted_insertion(&head2,d);
+    // }
     // int s;
-    // scanf("%d",s);
+    // scanf("%d",&s);
     // search(head,s);
     //reverse(&head);
     //recursive_reverse_display(head);
-    //merge_sorted(&head1,&head2,NULL);
+    //merge_sorted(head1,head2,NULL);
     //int c= recursive_count(head);
     //printf("\nNumber of elements in the Linked List: %d",c);
     // delete_node(&head,69);
     // printf("\n");
-    // recursive_display(head);
+    //recursive_display(head);
 }

@@ -28,9 +28,13 @@ void enqueue(queue **qq,int n)
 void dequeue(queue **qq)
 {
     if(isempty(*qq)==0)
+    {
         (*qq)->f++;
+        printf("\n%d dequeued from queue",(*qq)->arr[(*qq)->f]);
+    }
     else
-        printf("\nThe queue is empty.\n");
+        printf("\nThe queue is empty.");
+    printf("\n");
 }
 void display(queue *q)
 {

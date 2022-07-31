@@ -59,7 +59,6 @@ void recursive_sequential_insertion(node **head,int n)//4
     *head=temp;
     else
     recursive_sequential_insertion(&((*head)->next),n);
-
 }
 void display(node *head)//5
 {

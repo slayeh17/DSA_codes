@@ -29,6 +29,7 @@ void dequeue(qll **head)
     {
         qll *nxt=(*head)->next;
         printf("\n%d dequeued from queue",(*head)->data);
+        free(*head);
         *head=nxt;
     }
     else

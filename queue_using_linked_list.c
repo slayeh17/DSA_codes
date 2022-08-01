@@ -90,7 +90,7 @@ int main(){
                 }
             default:
                 {
-                    printf("Wrong Choice!!!");
+                    printf("\nWrong Choice!!!\n");
                     break;
                 }
         }

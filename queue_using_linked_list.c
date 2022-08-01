@@ -1,59 +1,64 @@
 #include<stdio.h>
 #include<stdlib.h>
-typedef struct queue_ll
+typedef struct queue
 {
     int data;
-    struct queue_ll *next;
-}qll;
-int isempty(qll *head)
+    struct queue *next;
+}queuell;
+void ini(queuell **f,queuell **r)
 {
-    if(head==NULL)
-        return 1;
-    return 0;
+    *f=NULL;
+    *r=NULL;
 }
-void enqueue(qll **head,int n)
+int isEmpty(queuell *f)
 {
-    qll *temp = (qll*)malloc(sizeof(qll)),*cur,*prv;
+    return (f==NULL);
+}
+void enqueue(queuell **f,queuell **r,int n)
+{
+    queuell *temp=(queuell*)malloc(sizeof(queuell));
     temp->data=n;
-    temp->next = NULL;
-    for(cur=*head,prv=NULL;cur!=NULL;cur=cur->next)
-        prv=cur;
-    if(prv==NULL)
-        *head=temp;
-    else
-        prv->next=temp;
-}
-void dequeue(qll **head)
-{
-    if(isempty(*head)==0)
+    temp->next=NULL;
+    if(isEmpty(*f))
     {
-        qll *nxt=(*head)->next;
-        printf("\n%d dequeued from queue",(*head)->data);
-        free(*head);
-        *head=nxt;
+        *f=temp;
+        *r=temp;
     }
     else
+    {
+        (*r)->next=temp;
+        *r=temp;
+    }
+}
+void dequeue(queuell **f)
+{
+    if(isEmpty(*f))
         printf("\nThe queue is empty");
-    printf("\n");
-
-}
-void display(qll *head)
-{
-    if(isempty(head)==0)
-    {
-        while(head!=NULL)
-        {
-            printf("%d ",head->data);
-            head=head->next;
-        }
-    }
     else
-       printf("\nThe queue is empty");
+    {
+        queuell *temp;
+        temp=*f;
+        printf("\n%d dequeued from the queue",temp->data);
+        *f=temp->next;
+        free(temp);
+    }
+    printf("\n");
+}
+void display(queuell **f,queuell **r)
+{
+    if(isEmpty(*f))
+        printf("\nThe queue is empty");
+    else
+    {
+        queuell *cur;
+        for(cur=*f;cur!=(*r)->next;cur=cur->next)
+            printf("%d ",cur->data);
+    }
     printf("\n");
 }
 int main(){
-    qll *head;
-    head=NULL;
+    queuell *f,*r;
+    ini(&f,&r);
     while(1)
     {
         int c;
@@ -66,17 +71,17 @@ int main(){
                     int h;
                     printf("Enter the number: ");
                     scanf("%d",&h);
-                    enqueue(&head,h);
+                    enqueue(&f,&r,h);
                     break;
                 }
             case 2:
                 {
-                    dequeue(&head);
+                    dequeue(&f);
                     break;
                 }
             case 3:
                 {
-                    display(head);
+                    display(&f,&r);
                     break;
                 }
             case 4:

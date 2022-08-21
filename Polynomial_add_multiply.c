@@ -34,7 +34,6 @@ void descending_insertion_without_duplication(poly **p,int c,int e)
 	else
 	prv->next=temp;
 }
-//Addition Function is wrong skip it
 void add(poly *p1,poly *p2,poly **padd)
 {
 	*padd=NULL;

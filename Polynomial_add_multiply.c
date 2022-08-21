@@ -34,14 +34,15 @@ void descending_insertion_without_duplication(poly **p,int c,int e)
 	else
 	prv->next=temp;
 }
-//Addition Function is wrong skip it -> write sir's function
+//Addition Function is wrong skip it
 void add(poly *p1,poly *p2,poly **padd)
 {
 	*padd=NULL;
-	for(;p1!=NULL;p1=p1->next)
-	descending_insertion_without_duplication(padd,p1->coeff,p1->exp);
-	for(;p2!=NULL;p2=p2->next)
-	descending_insertion_without_duplication(padd,p2->coeff,p2->exp);
+	poly *cur;
+	for(cur=p1;cur!=NULL;cur=cur->next)
+	descending_insertion_without_duplication(padd,cur->coeff,cur->exp);
+	for(cur=p2;cur!=NULL;cur=cur->next)
+	descending_insertion_without_duplication(padd,cur->coeff,cur->exp);
 }
 void multiply(poly *p1,poly *p2,poly **pmul)
 {

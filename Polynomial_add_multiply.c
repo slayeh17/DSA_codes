@@ -10,7 +10,7 @@ void descending_insertion_without_duplication(poly **p,int c,int e)
 	poly *cur,*prv,*temp;
 	if(c==0)
 	return;
-	for(cur=*p;cur!=NULL && e<cur->exp;cur=cur->next)
+	for(cur=*p,prv=NULL;cur!=NULL && e<cur->exp;cur=cur->next)
 	prv=cur;
 	if(cur!=NULL && e==cur->exp)
 	{

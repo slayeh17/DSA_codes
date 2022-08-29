@@ -31,8 +31,8 @@ void postorder(bst *root)
 {
 	if(root!=NULL)
 	{
-		inorder(root->left);
-		inorder(root->right);
+		postorder(root->left);
+		postorder(root->right);
 		printf("%d ",root->data);
 	}
 }
@@ -41,8 +41,8 @@ void preorder(bst *root)
 	if(root!=NULL)
 	{
 		printf("%d ",root->data);
-		inorder(root->left);
-		inorder(root->right);
+		preorder(root->left);
+		preorder(root->right);
 	}
 }
 int recursive_search(bst *root,int n)

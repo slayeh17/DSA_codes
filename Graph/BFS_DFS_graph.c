@@ -88,7 +88,6 @@ void DFS(graph *G,int start_v)
 }
 void create_graph(graph *G,int i,int j)
 {
-	G->vertex[G->n][G->n];
 	G->vertex[i][j]=1;
 	G->vertex[j][i]=1;
 }

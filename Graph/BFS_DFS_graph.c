@@ -127,7 +127,10 @@ int main()
 	}
 	display(G);
 	printf("\n");
-	BFS(&G,0);
+    int source;
+    printf("Enter source: ");
+    scanf("%d",&source);
+	BFS(&G,source);
 	printf("\n");
-	DFS(&G,0);
+	DFS(&G,source);
 }

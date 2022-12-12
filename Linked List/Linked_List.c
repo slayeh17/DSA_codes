@@ -100,12 +100,16 @@ void reverse(node **head)//8
     }
     *head=prv;
 }
-void recursive_reverse_display(node *head)//9
+node* recursive_reverse(node *prv,node **head,node *temp) //pass recursive_reverse(NULL, &head, NULL) in the main function
 {
-    if(head==NULL)
-    return;
-    recursive_reverse_display(head->next);
-    printf("%d ",head->data);
+	if(*head==NULL)
+	{
+		return prv;
+	}
+	temp=(*head)->next;
+	(*head)->next=prv;
+	prv=*head;
+	*head=recursive_reverse(prv,&temp,temp);
 }
 void count(node *head)//10
 {

@@ -1,123 +1,91 @@
 #include<stdio.h>
 #include<stdlib.h>
-typedef struct graph
+
+int comparator(const void *p1,const void *p2)
 {
-	int nE,nV,vertex[100][100];
-}graph;
-typedef struct edge_c_wt
-{
-	int a,b,wt;
-}edgeCwt;
-void sort(edgeCwt E[],int n)
-{
-	for(int i=1;i<n;i++)
-	{
-		edgeCwt cur=E[i];
-		int j=i-1;
-		while(j>=0 && cur.wt<E[j].wt)
-		{
-			E[j+1]=E[j];
-			j--;
-		}
-		E[j+1]=cur;
-	}
+    const int (*x)[3]=p1;
+    const int (*y)[3]=p2;
+
+    return (*x)[2]-(*y)[2];
 }
-int areFriends(int i,int j,int n,int friends[n][n])
+
+void makeSet(int parent[],int rank[],int n)
 {
-	return friends[i][j];
+    for(int i=0;i<n;i++)
+    {
+        parent[i]=i;
+        rank[i]=0;
+    }
 }
-void checkAndMakeFriends(int a,int b,int n,int friends[n][n])
+
+int findParent(int parent[],int component)
 {
-	for(int i=0;i<n;i++)
-	{
-		if(i!=b && (friends[a][i]==1 && friends[b][i]==0))
-		{
-			friends[b][i]==1;
-			friends[i][b]==1;
-			printf("Fuck You 1\n");
-		}
-	}
-	for(int i=0;i<n;i++)
-	{
-		if(i!=a && (friends[b][i]==1 && friends[a][i]==0))
-		{
-			friends[a][i]==1;
-			friends[i][a]==1;
-			printf("Fuck You 2\n");
-		}
-		
-	}
+    if(parent[component]==component)
+    return component;
+
+    return parent[component]=findParent(parent,parent[component]);
 }
-void init(int n,int arr[n][n])
+
+void unionSet(int u,int v,int parent[],int rank[],int n)
 {
-	for(int i=0;i<n;i++)
-	{
-		for(int j=0;j<n;j++)
-		arr[i][j]=0;
-	}
+    u=findParent(parent,u);
+    v=findParent(parent,v);
+
+    if(rank[u]<rank[v])
+    {
+        parent[u]=v;
+    }
+    else if(rank[u]<rank[v])
+    {
+        parent[v]=u;
+    }
+    else
+    {
+        parent[v]=u;
+        rank[u]++;
+    }
 }
-void display(edgeCwt mst[],int n)
+
+void kruskalAlgo(int n,int edge[n][3])
 {
-	printf("Minimum Spanning Tree: \n");
-	for(int i=0;i<n;i++)
-	{
-		printf("%d - %d: %d\n",mst[i].a,mst[i].b,mst[i].wt);
-	}
+    qsort(edge,n,sizeof(edge[0]),comparator);
+
+    int parent[n];
+    int rank[n];
+    makeSet(parent,rank,n);
+
+    int minWeight=0;
+
+    printf("Following are the edges in the constructed MST\n");
+    for(int i=0;i<n;i++)
+    {
+        int v1=findParent(parent,edge[i][0]);
+        int v2=findParent(parent,edge[i][1]);
+        int wt=edge[i][2];
+
+        if(v1!=v2)
+        {
+            unionSet(v1,v2,parent,rank,n);
+            minWeight+=wt;
+            printf("%d -- %d == %d\n",v1,v2,wt);
+        }
+    }
+
+    printf("Minimum Cost Spanning Tree: %d\n",minWeight);
 }
-void Kruskal(edgeCwt E[],graph G)
-{
-	sort(E,G.nE);
-	int friends[G.nV][G.nV];
-	init(G.nV,friends);
-	edgeCwt mst[G.nV-1];
-	for(int i=0;i<G.nV-1;i++)
-	{
-		//checkAndMakeFriends(E[i].a,E[i].b,G.nV,friends);
-		
-		if(friends[E[i].a][E[i].b]==0)//to check for cycle
-		{
-			mst[i]=E[i];
-			friends[E[i].a][E[i].b]=1;
-			friends[E[i].b][E[i].a]=1;
-		}
-		checkAndMakeFriends(E[i].a,E[i].b,G.nV,friends);
-		for(int j=0;j<G.nV;j++)
-		{
-			for(int k=0;k<G.nV;k++)
-			printf("%d ",friends[j][k]);
-			printf("\n");
-		}
-		printf("\n");
-	}
-	display(mst,G.nV-1);
-}
-void create_graph(graph G,int i,int j,int wt)
-{
-	G.vertex[i][j]=wt;
-	G.vertex[j][i]=wt;
-}
+
 int main()
 {
-	graph G;
-	int k=0;
-	printf("Enter the number of vertices and edges: ");
-	scanf("%d%d",&G.nV,&G.nE);
-	edgeCwt E[G.nE];
-	int t=G.nE;
-	while(t--)
-	{
-		printf("Enter the adjacent vertices and weights(* * *): ");
-		int i,j,wt;
-		scanf("%d%d%d",&i,&j,&wt);
-		create_graph(G,i,j,wt);
-		E[k].a=i;E[k].b=j;E[k].wt=wt;
-		k++;
-	}
-	Kruskal(E,G);
-	sort(E,G.nE);
-	for(int i=0;i<G.nE;i++)
-	{
-		printf("%d - %d:%d",E[i].a,E[i].b,E[i].wt);
-		printf("\n");
-	}
-}	
+    int nE,nV;
+    printf("Enter the number of vertices and edges: ");
+    scanf("%d%d",&nV,&nE);
+
+    int edge[nE][3];
+    printf("Enter the adjacent edges and weights(* * *):\n");
+    for(int i=0;i<nE;i++)
+    {
+        scanf("%d%d%d",&edge[i][0],&edge[i][1],&edge[i][2]);
+    }
+
+    kruskalAlgo(nE,edge);
+}

@@ -38,15 +38,15 @@ void display_board(int n,char board[n][n],int *count)
 		for(int j=0;j<n;j++)
 		printf("%c ",board[i][j]);
 		printf("\n");
-	}	
+	}
 }
 int nQueen(int x,int n,char board[n][n])
 {
 	if(x==n)
-	{	
+	{
 		static int count=0;
 		display_board(n,board,&count);
-	}	
+	}
 	for(int col=0;col<n;col++)
 	{
 		if(is_safe(x,col,n,board))
@@ -54,7 +54,7 @@ int nQueen(int x,int n,char board[n][n])
 			board[x][col]='Q';
 			if(nQueen(x+1,n,board))
 			return 1;
-			
+
 			board[x][col]='-';
 		}
 	}
@@ -63,6 +63,7 @@ int nQueen(int x,int n,char board[n][n])
 int main()
 {
 	int n;
+    	printf("Enter the number of queens: ");
 	scanf("%d",&n);
 	char board[n][n];
 	for(int i=0;i<n;i++)
